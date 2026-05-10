@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { MessageCircle, Calendar, ChevronDown } from 'lucide-react';
-import { useStore } from '@/data/useStore';
+import { useEffect, useState } from "react";
+import { MessageCircle, Calendar, ChevronDown } from "lucide-react";
+import { useStore } from "@/data/useStore";
 
 interface SectionNavProps {
   activeSection: number;
@@ -8,30 +8,34 @@ interface SectionNavProps {
 }
 
 const sectionNames = [
-  'Inicio',
-  'Servicios',
-  'Impresión',
-  'Trámites',
-  'Portafolio',
-  'Ofertas',
-  'Ubicación',
+  "Inicio",
+  "Servicios",
+  "Impresión",
+  "Trámites",
+  "Portafolio",
+  "Ofertas",
+  "Ubicación",
 ];
 
-export default function SectionNav({ activeSection, onNavigate }: SectionNavProps) {
+export default function SectionNav({
+  activeSection,
+  onNavigate,
+}: SectionNavProps) {
   const general = useStore((s) => s.general);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
   }, []);
 
   const handleWhatsApp = () => {
-    const message = 'Hola, me interesa conocer más sobre sus servicios fotográficos';
+    const message =
+      "Hola, me interesa conocer más sobre sus servicios fotográficos";
     const url = `https://wa.me/${general.whatsappNumber}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+    window.open(url, "_blank");
   };
 
   if (isMobile) {
@@ -43,10 +47,12 @@ export default function SectionNav({ activeSection, onNavigate }: SectionNavProp
               key={i}
               onClick={() => onNavigate(i)}
               className={`flex flex-col items-center gap-0.5 px-2 py-1 rounded-md transition-all ${
-                activeSection === i ? 'text-[#D4A056]' : 'text-[#8B8680]'
+                activeSection === i ? "text-[#D4A056]" : "text-[#8B8680]"
               }`}
             >
-              <span className="text-[10px] font-medium">{String(i + 1).padStart(2, '0')}</span>
+              <span className="text-[10px] font-medium">
+                {String(i + 1).padStart(2, "0")}
+              </span>
               <span className="text-[9px]">{name.slice(0, 6)}</span>
             </button>
           ))}
@@ -61,7 +67,9 @@ export default function SectionNav({ activeSection, onNavigate }: SectionNavProp
       <div className="pt-8 pb-4 px-6">
         <div className="font-display text-[28px] leading-tight text-[#1E1E1E]">
           <div className="font-medium tracking-wide">ESTUDIO</div>
-          <div className="font-medium tracking-wide text-[#D4A056]">ORIENTAL</div>
+          <div className="font-medium tracking-wide text-[#D4A056]">
+            ORIENTAL
+          </div>
         </div>
         <div className="mt-3 h-px bg-[#E8E4E0]" />
       </div>
@@ -76,27 +84,27 @@ export default function SectionNav({ activeSection, onNavigate }: SectionNavProp
                 onMouseEnter={() => {}}
                 onMouseLeave={() => {}}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-300 group ${
-                  activeSection === i
-                    ? 'bg-[#D4A056]/10'
-                    : 'hover:bg-black/5'
+                  activeSection === i ? "bg-[#D4A056]/10" : "hover:bg-black/5"
                 }`}
               >
                 <span
                   className={`text-xs font-mono transition-colors ${
-                    activeSection === i ? 'text-[#D4A056]' : 'text-[#8B8680]'
+                    activeSection === i ? "text-[#D4A056]" : "text-[#8B8680]"
                   }`}
                 >
-                  {String(i + 1).padStart(2, '0')}
+                  {String(i + 1).padStart(2, "0")}
                 </span>
                 <span
                   className={`text-sm font-medium transition-colors ${
-                    activeSection === i ? 'text-[#1E1E1E]' : 'text-[#8B8680] group-hover:text-[#1E1E1E]'
+                    activeSection === i
+                      ? "text-[#1E1E1E]"
+                      : "text-[#8B8680] group-hover:text-[#1E1E1E]"
                   }`}
                 >
                   {name}
                 </span>
                 <div
-                  className={`ml-auto nav-dot ${activeSection === i ? 'active' : ''}`}
+                  className={`ml-auto nav-dot ${activeSection === i ? "active" : ""}`}
                 />
               </button>
             </li>
