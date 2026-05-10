@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Camera, Lock } from 'lucide-react';
-import { useStore } from '@/data/useStore';
-import DashboardSidebar from '@/presentation/components/dashboard/DashboardSidebar';
-import GeneralEditor from '@/presentation/components/dashboard/GeneralEditor';
-import SectionTextEditor from '@/presentation/components/dashboard/SectionTextEditor';
-import ServicesEditor from '@/presentation/components/dashboard/ServicesEditor';
-import PrintsEditor from '@/presentation/components/dashboard/PrintsEditor';
-import DocumentsEditor from '@/presentation/components/dashboard/DocumentsEditor';
-import PortfolioEditor from '@/presentation/components/dashboard/PortfolioEditor';
-import OffersEditor from '@/presentation/components/dashboard/OffersEditor';
-import LocationEditor from '@/presentation/components/dashboard/LocationEditor';
-import { toast } from 'sonner';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Camera, Lock } from "lucide-react";
+import { useStore } from "@/data/useStore";
+import DashboardSidebar from "@/presentation/components/dashboard/DashboardSidebar";
+import GeneralEditor from "@/presentation/components/dashboard/GeneralEditor";
+import SectionTextEditor from "@/presentation/components/dashboard/SectionTextEditor";
+import ServicesEditor from "@/presentation/components/dashboard/ServicesEditor";
+import PrintsEditor from "@/presentation/components/dashboard/PrintsEditor";
+import DocumentsEditor from "@/presentation/components/dashboard/DocumentsEditor";
+import PortfolioEditor from "@/presentation/components/dashboard/PortfolioEditor";
+import OffersEditor from "@/presentation/components/dashboard/OffersEditor";
+import LocationEditor from "@/presentation/components/dashboard/LocationEditor";
+import { toast } from "sonner";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -24,32 +24,32 @@ export default function Dashboard() {
   const sections = useStore((s) => s.sections);
   const sidebarCollapsed = useStore((s) => s.ui.sidebarCollapsed);
 
-  const [pin, setPin] = useState('');
-  const [error, setError] = useState('');
+  const [pin, setPin] = useState("");
+  const [error, setError] = useState("");
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
     const valid = checkSession();
     if (!valid && isAuthenticated) {
       logout();
-      toast.error('Sesión expirada');
+      toast.error("Sesión expirada");
     }
     setChecking(false);
   }, []);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     if (!pin.trim()) {
-      setError('Ingrese el PIN');
+      setError("Ingrese el PIN");
       return;
     }
     const success = login(pin);
     if (success) {
-      toast.success('Bienvenido al panel de administración');
+      toast.success("Bienvenido al panel de administración");
     } else {
-      setError('PIN incorrecto');
-      toast.error('PIN incorrecto');
+      setError("PIN incorrecto");
+      toast.error("PIN incorrecto");
     }
   };
 
@@ -63,13 +63,17 @@ export default function Dashboard() {
               <div className="w-16 h-16 bg-[#D4A056]/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Camera className="w-8 h-8 text-[#D4A056]" />
               </div>
-              <h1 className="font-display text-2xl text-[#1E1E1E] mb-1">Estudio Oriental</h1>
+              <h1 className="font-display text-2xl text-[#1E1E1E] mb-1">
+                Estudio Oriental
+              </h1>
               <p className="text-sm text-[#8B8680]">Panel de Administración</p>
             </div>
 
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
-                <label className="dashboard-label text-center block">Ingrese su PIN</label>
+                <label className="dashboard-label text-center block">
+                  Ingrese su PIN
+                </label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8B8680]" />
                   <input
@@ -82,7 +86,11 @@ export default function Dashboard() {
                     autoFocus
                   />
                 </div>
-                {error && <p className="text-xs text-[#C0392B] mt-1 text-center">{error}</p>}
+                {error && (
+                  <p className="text-xs text-[#C0392B] mt-1 text-center">
+                    {error}
+                  </p>
+                )}
               </div>
               <button
                 type="submit"
@@ -94,7 +102,7 @@ export default function Dashboard() {
 
             <div className="mt-6 text-center">
               <button
-                onClick={() => navigate('/')}
+                onClick={() => navigate("/")}
                 className="text-sm text-[#8B8680] hover:text-[#D4A056] transition-colors"
               >
                 Volver al sitio público
@@ -116,8 +124,8 @@ export default function Dashboard() {
 
   // Get section for current tab
   const getSectionForTab = () => {
-    if (activeTab.startsWith('section-')) {
-      const sectionId = parseInt(activeTab.replace('section-', ''));
+    if (activeTab.startsWith("section-")) {
+      const sectionId = parseInt(activeTab.replace("section-", ""));
       return sections.find((s) => s.id === sectionId);
     }
     return undefined;
@@ -127,31 +135,47 @@ export default function Dashboard() {
 
   const renderEditor = () => {
     switch (activeTab) {
-      case 'general':
+      case "general":
         return <GeneralEditor />;
-      case 'section-1':
+      case "section-1":
         return currentSection ? (
           <SectionTextEditor
             section={currentSection}
             sectionId={1}
             extraFields={[
-              { key: 'ctaText', label: 'Texto del botón CTA', type: 'text' },
-              { key: 'whatsappMessage', label: 'Mensaje de WhatsApp', type: 'textarea' },
+              { key: "ctaText", label: "Texto del botón CTA", type: "text" },
+              {
+                key: "whatsappMessage",
+                label: "Mensaje de WhatsApp",
+                type: "textarea",
+              },
             ]}
           />
         ) : null;
-      case 'section-2':
-        return currentSection ? <ServicesEditor section={currentSection} /> : null;
-      case 'section-3':
-        return currentSection ? <PrintsEditor section={currentSection} /> : null;
-      case 'section-4':
-        return currentSection ? <DocumentsEditor section={currentSection} /> : null;
-      case 'section-5':
-        return currentSection ? <PortfolioEditor section={currentSection} /> : null;
-      case 'section-6':
-        return currentSection ? <OffersEditor section={currentSection} /> : null;
-      case 'section-7':
-        return currentSection ? <LocationEditor section={currentSection} /> : null;
+      case "section-2":
+        return currentSection ? (
+          <ServicesEditor section={currentSection} />
+        ) : null;
+      case "section-3":
+        return currentSection ? (
+          <PrintsEditor section={currentSection} />
+        ) : null;
+      case "section-4":
+        return currentSection ? (
+          <DocumentsEditor section={currentSection} />
+        ) : null;
+      case "section-5":
+        return currentSection ? (
+          <PortfolioEditor section={currentSection} />
+        ) : null;
+      case "section-6":
+        return currentSection ? (
+          <OffersEditor section={currentSection} />
+        ) : null;
+      case "section-7":
+        return currentSection ? (
+          <LocationEditor section={currentSection} />
+        ) : null;
       default:
         return <GeneralEditor />;
     }
@@ -159,14 +183,15 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-[#F5F5F5] font-dashboard">
-      <DashboardSidebar activeTab={activeTab} onTabChange={setActiveDashboardTab} />
+      <DashboardSidebar
+        activeTab={activeTab}
+        onTabChange={setActiveDashboardTab}
+      />
       <main
         className="transition-all duration-300"
         style={{ marginLeft: sidebarCollapsed ? 60 : 280 }}
       >
-        <div className="p-6 lg:p-8 max-w-5xl">
-          {renderEditor()}
-        </div>
+        <div className="p-6 lg:p-8 max-w-5xl">{renderEditor()}</div>
       </main>
     </div>
   );

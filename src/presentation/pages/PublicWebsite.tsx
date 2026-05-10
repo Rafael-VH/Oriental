@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
-import { useStore } from '@/data/useStore';
-import SectionNav from '@/presentation/components/SectionNav';
-import HeroSection from '@/presentation/components/sections/HeroSection';
-import ServicesSection from '@/presentation/components/sections/ServicesSection';
-import PrintsSection from '@/presentation/components/sections/PrintsSection';
-import DocumentsSection from '@/presentation/components/sections/DocumentsSection';
-import PortfolioSection from '@/presentation/components/sections/PortfolioSection';
-import OffersSection from '@/presentation/components/sections/OffersSection';
-import LocationSection from '@/presentation/components/sections/LocationSection';
+import { useEffect, useRef, useState, useCallback } from "react";
+import { useStore } from "@/data/useStore";
+import SectionNav from "@/presentation/components/SectionNav";
+import HeroSection from "@/presentation/components/sections/HeroSection";
+import ServicesSection from "@/presentation/components/sections/ServicesSection";
+import PrintsSection from "@/presentation/components/sections/PrintsSection";
+import DocumentsSection from "@/presentation/components/sections/DocumentsSection";
+import PortfolioSection from "@/presentation/components/sections/PortfolioSection";
+import OffersSection from "@/presentation/components/sections/OffersSection";
+import LocationSection from "@/presentation/components/sections/LocationSection";
 
 export default function PublicWebsite() {
   const sections = useStore((s) => s.sections);
@@ -20,19 +20,24 @@ export default function PublicWebsite() {
 
   const visibleSections = sections.filter((s) => s.isVisible);
 
-  const goToSection = useCallback((index: number) => {
-    if (index < 0 || index >= visibleSections.length || isScrolling) return;
-    setIsScrolling(true);
-    setActiveSection(index);
-    lastScrollTime.current = Date.now();
+  const goToSection = useCallback(
+    (index: number) => {
+      if (index < 0 || index >= visibleSections.length || isScrolling) return;
+      setIsScrolling(true);
+      setActiveSection(index);
+      lastScrollTime.current = Date.now();
 
-    const el = document.getElementById(`section-${visibleSections[index].id}`);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+      const el = document.getElementById(
+        `section-${visibleSections[index].id}`,
+      );
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
 
-    setTimeout(() => setIsScrolling(false), 1000);
-  }, [visibleSections, isScrolling]);
+      setTimeout(() => setIsScrolling(false), 1000);
+    },
+    [visibleSections, isScrolling],
+  );
 
   // Auto-advance timer
   useEffect(() => {
@@ -58,19 +63,20 @@ export default function PublicWebsite() {
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowDown' || e.key === ' ') {
+      if (e.key === "ArrowDown" || e.key === " ") {
         e.preventDefault();
         const next = (activeSection + 1) % visibleSections.length;
         goToSection(next);
-      } else if (e.key === 'ArrowUp') {
+      } else if (e.key === "ArrowUp") {
         e.preventDefault();
-        const prev = (activeSection - 1 + visibleSections.length) % visibleSections.length;
+        const prev =
+          (activeSection - 1 + visibleSections.length) % visibleSections.length;
         goToSection(prev);
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [activeSection, visibleSections.length, goToSection]);
 
   // Scroll-based section detection
@@ -95,33 +101,41 @@ export default function PublicWebsite() {
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [visibleSections, activeSection]);
 
-  const renderSection = (section: typeof visibleSections[0], index: number) => {
+  const renderSection = (
+    section: (typeof visibleSections)[0],
+    index: number,
+  ) => {
     const isActive = index === activeSection;
     const props = { section, isActive };
 
     switch (section.id) {
-      case 1: return <HeroSection key={section.id} {...props} />;
-      case 2: return <ServicesSection key={section.id} {...props} />;
-      case 3: return <PrintsSection key={section.id} {...props} />;
-      case 4: return <DocumentsSection key={section.id} {...props} />;
-      case 5: return <PortfolioSection key={section.id} {...props} />;
-      case 6: return <OffersSection key={section.id} {...props} />;
-      case 7: return <LocationSection key={section.id} {...props} />;
-      default: return null;
+      case 1:
+        return <HeroSection key={section.id} {...props} />;
+      case 2:
+        return <ServicesSection key={section.id} {...props} />;
+      case 3:
+        return <PrintsSection key={section.id} {...props} />;
+      case 4:
+        return <DocumentsSection key={section.id} {...props} />;
+      case 5:
+        return <PortfolioSection key={section.id} {...props} />;
+      case 6:
+        return <OffersSection key={section.id} {...props} />;
+      case 7:
+        return <LocationSection key={section.id} {...props} />;
+      default:
+        return null;
     }
   };
 
   return (
     <div ref={containerRef} className="relative bg-[#F4F1EC]">
       {/* Navigation Sidebar */}
-      <SectionNav
-        activeSection={activeSection}
-        onNavigate={goToSection}
-      />
+      <SectionNav activeSection={activeSection} onNavigate={goToSection} />
 
       {/* Sections */}
       <main className="ml-0 md:ml-[260px]">
