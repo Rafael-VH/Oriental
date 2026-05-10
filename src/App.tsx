@@ -1,7 +1,7 @@
-import { Routes, Route } from 'react-router-dom';
-import { Toaster } from '@/components/ui/sonner';
-import PublicWebsite from '@/presentation/pages/PublicWebsite';
-import Dashboard from '@/presentation/pages/Dashboard';
+import { Routes, Route } from "react-router-dom";
+import { Toaster } from "@/components/ui/sonner";
+import PublicWebsite from "@/presentation/pages/PublicWebsite";
+import Dashboard from "@/presentation/pages/Dashboard";
 
 function App() {
   return (
