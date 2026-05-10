@@ -247,33 +247,3 @@ export const defaultAppState: AppState = {
     loginTimestamp: null,
   },
 };
-
-const STORAGE_KEY = 'estudio_oriental_cms';
-
-export function loadState(): AppState {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      return {
-        ...defaultAppState,
-        ...parsed,
-        general: { ...defaultGeneral, ...parsed.general },
-        sections: parsed.sections || defaultSections,
-        ui: { ...defaultAppState.ui, ...parsed.ui },
-        auth: { ...defaultAppState.auth, ...parsed.auth },
-      };
-    }
-  } catch {
-    // ignore parse errors
-  }
-  return defaultAppState;
-}
-
-export function saveState(state: AppState): void {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch {
-    // ignore storage errors
-  }
-}
