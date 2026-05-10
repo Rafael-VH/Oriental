@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Camera, Lock } from "lucide-react";
 import { useStore } from "@/data/useStore";
+import { login, logout, checkSession } from "@/services/app.service";
 import DashboardSidebar from "@/presentation/components/dashboard/DashboardSidebar";
 import GeneralEditor from "@/presentation/components/dashboard/GeneralEditor";
 import SectionTextEditor from "@/presentation/components/dashboard/SectionTextEditor";
@@ -16,9 +17,6 @@ import { toast } from "sonner";
 export default function Dashboard() {
   const navigate = useNavigate();
   const isAuthenticated = useStore((s) => s.auth.isAuthenticated);
-  const checkSession = useStore((s) => s.checkSession);
-  const login = useStore((s) => s.login);
-  const logout = useStore((s) => s.logout);
   const activeTab = useStore((s) => s.ui.activeDashboardTab);
   const setActiveDashboardTab = useStore((s) => s.setActiveDashboardTab);
   const sections = useStore((s) => s.sections);
