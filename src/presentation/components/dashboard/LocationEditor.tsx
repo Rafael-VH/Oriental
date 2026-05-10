@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Save } from "lucide-react";
 import { useStore } from "@/data/useStore";
 import type { Section, ScheduleDay } from "@/domain/types";
+import { saveAll } from "@/services/app.service";
 import { toast } from "sonner";
 
 interface Props {
@@ -11,7 +12,6 @@ interface Props {
 export default function LocationEditor({ section }: Props) {
   const updateSection = useStore((s) => s.updateSection);
   const updateSectionContent = useStore((s) => s.updateSectionContent);
-  const saveAll = useStore((s) => s.saveAll);
 
   const [title, setTitle] = useState(section.title);
   const [subtitle, setSubtitle] = useState(section.subtitle);

@@ -1,6 +1,7 @@
 import { Plus, Trash2, GripVertical } from "lucide-react";
 import { useStore } from "@/data/useStore";
 import type { Section, DocumentItem } from "@/domain/types";
+import { saveAll } from "@/services/app.service";
 import { toast } from "sonner";
 import SectionTextEditor from "./SectionTextEditor";
 
@@ -10,7 +11,6 @@ interface Props {
 
 export default function DocumentsEditor({ section }: Props) {
   const updateSectionContent = useStore((s) => s.updateSectionContent);
-  const saveAll = useStore((s) => s.saveAll);
   const documents = (section.content.documents || []) as DocumentItem[];
 
   const handleAdd = () => {

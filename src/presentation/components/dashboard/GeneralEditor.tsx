@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { Settings, Save, RotateCcw } from "lucide-react";
 import { useStore } from "@/data/useStore";
+import { saveAll, resetToDefaults } from "@/services/app.service";
 import { toast } from "sonner";
 
 export default function GeneralEditor() {
   const general = useStore((s) => s.general);
   const updateGeneral = useStore((s) => s.updateGeneral);
-  const saveAll = useStore((s) => s.saveAll);
-  const resetToDefaults = useStore((s) => s.resetToDefaults);
 
   const [form, setForm] = useState({
     studioName: general.studioName,

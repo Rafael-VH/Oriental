@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useStore } from "@/data/useStore";
 import type { Section, ServiceItem } from "@/domain/types";
+import { saveAll } from "@/services/app.service";
 import { toast } from "sonner";
 import SectionTextEditor from "./SectionTextEditor";
 
@@ -25,7 +26,6 @@ const iconOptions = [
 
 export default function ServicesEditor({ section }: Props) {
   const updateSectionContent = useStore((s) => s.updateSectionContent);
-  const saveAll = useStore((s) => s.saveAll);
   const services = (section.content.services || []) as ServiceItem[];
 
   const handleAdd = () => {

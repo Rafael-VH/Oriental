@@ -13,6 +13,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useStore } from "@/data/useStore";
+import { logout } from "@/services/app.service";
 
 interface Props {
   activeTab: string;
@@ -58,7 +59,6 @@ const menuItems = [
 export default function DashboardSidebar({ activeTab, onTabChange }: Props) {
   const sidebarCollapsed = useStore((s) => s.ui.sidebarCollapsed);
   const toggleSidebar = useStore((s) => s.toggleSidebar);
-  const logout = useStore((s) => s.logout);
   const unsavedChanges = useStore((s) => s.ui.unsavedChanges);
   const sections = useStore((s) => s.sections);
 

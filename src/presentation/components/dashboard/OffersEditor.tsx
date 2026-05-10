@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { useStore } from "@/data/useStore";
 import type { Section, OfferItem } from "@/domain/types";
+import { saveAll } from "@/services/app.service";
 import { toast } from "sonner";
 import SectionTextEditor from "./SectionTextEditor";
 
@@ -23,7 +24,6 @@ const badgeColorOptions = [
 
 export default function OffersEditor({ section }: Props) {
   const updateSectionContent = useStore((s) => s.updateSectionContent);
-  const saveAll = useStore((s) => s.saveAll);
   const offers = (section.content.offers || []) as OfferItem[];
 
   const handleAdd = () => {
