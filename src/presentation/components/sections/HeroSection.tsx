@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
-import { MessageCircle, ChevronDown } from 'lucide-react';
-import { useStore } from '@/data/useStore';
-import type { Section } from '@/domain/types';
+import { useEffect, useRef } from "react";
+import { MessageCircle, ChevronDown } from "lucide-react";
+import { useStore } from "@/data/useStore";
+import type { Section } from "@/domain/types";
 
 interface Props {
   section: Section;
@@ -14,24 +14,29 @@ export default function HeroSection({ section, isActive }: Props) {
 
   useEffect(() => {
     if (isActive && contentRef.current) {
-      const els = contentRef.current.querySelectorAll('.animate-item');
+      const els = contentRef.current.querySelectorAll(".animate-item");
       els.forEach((el, i) => {
         const htmlEl = el as HTMLElement;
-        htmlEl.style.opacity = '0';
-        htmlEl.style.transform = 'translateY(30px)';
-        setTimeout(() => {
-          htmlEl.style.transition = 'all 0.6s ease-out';
-          htmlEl.style.opacity = '1';
-          htmlEl.style.transform = 'translateY(0)';
-        }, 200 + i * 150);
+        htmlEl.style.opacity = "0";
+        htmlEl.style.transform = "translateY(30px)";
+        setTimeout(
+          () => {
+            htmlEl.style.transition = "all 0.6s ease-out";
+            htmlEl.style.opacity = "1";
+            htmlEl.style.transform = "translateY(0)";
+          },
+          200 + i * 150,
+        );
       });
     }
   }, [isActive]);
 
   const handleWhatsApp = () => {
-    const message = section.content.whatsappMessage || 'Hola, me interesa conocer más sobre sus servicios fotográficos';
+    const message =
+      section.content.whatsappMessage ||
+      "Hola, me interesa conocer más sobre sus servicios fotográficos";
     const url = `https://wa.me/${general.whatsappNumber}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+    window.open(url, "_blank");
   };
 
   return (
@@ -51,11 +56,14 @@ export default function HeroSection({ section, isActive }: Props) {
       <div
         ref={contentRef}
         className="relative z-10 text-center px-8 max-w-2xl"
-        style={{ marginLeft: '260px' }}
+        style={{ marginLeft: "260px" }}
       >
         {section.content.showLogo && (
           <div className="animate-item mb-6">
-            <MessageCircle className="w-10 h-10 text-[#D4A056] mx-auto" strokeWidth={1.5} />
+            <MessageCircle
+              className="w-10 h-10 text-[#D4A056] mx-auto"
+              strokeWidth={1.5}
+            />
           </div>
         )}
 
@@ -73,7 +81,7 @@ export default function HeroSection({ section, isActive }: Props) {
             className="btn-primary flex items-center gap-2 text-base"
           >
             <MessageCircle className="w-5 h-5" />
-            {section.content.ctaText || 'Contáctanos por WhatsApp'}
+            {section.content.ctaText || "Contáctanos por WhatsApp"}
           </button>
         </div>
 

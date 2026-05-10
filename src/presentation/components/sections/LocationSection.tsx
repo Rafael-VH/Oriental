@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
-import { MapPin, Phone, Mail, Instagram, Facebook, Clock } from 'lucide-react';
-import { useStore } from '@/data/useStore';
-import type { Section, ScheduleDay } from '@/domain/types';
+import { useEffect, useRef } from "react";
+import { MapPin, Phone, Mail, Instagram, Facebook, Clock } from "lucide-react";
+import { useStore } from "@/data/useStore";
+import type { Section, ScheduleDay } from "@/domain/types";
 
 interface Props {
   section: Section;
@@ -14,16 +14,19 @@ export default function LocationSection({ section, isActive }: Props) {
 
   useEffect(() => {
     if (isActive && contentRef.current) {
-      const els = contentRef.current.querySelectorAll('.animate-item');
+      const els = contentRef.current.querySelectorAll(".animate-item");
       els.forEach((el, i) => {
         const htmlEl = el as HTMLElement;
-        htmlEl.style.opacity = '0';
-        htmlEl.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-          htmlEl.style.transition = 'all 0.5s ease-out';
-          htmlEl.style.opacity = '1';
-          htmlEl.style.transform = 'translateY(0)';
-        }, 300 + i * 80);
+        htmlEl.style.opacity = "0";
+        htmlEl.style.transform = "translateY(20px)";
+        setTimeout(
+          () => {
+            htmlEl.style.transition = "all 0.5s ease-out";
+            htmlEl.style.opacity = "1";
+            htmlEl.style.transform = "translateY(0)";
+          },
+          300 + i * 80,
+        );
       });
     }
   }, [isActive]);
@@ -35,15 +38,30 @@ export default function LocationSection({ section, isActive }: Props) {
   return (
     <section className="section-full relative flex items-center overflow-hidden">
       <div className="absolute inset-0">
-        <img src={section.backgroundImage} alt="" className="w-full h-full object-cover" loading="lazy" />
+        <img
+          src={section.backgroundImage}
+          alt=""
+          className="w-full h-full object-cover"
+          loading="lazy"
+        />
         <div className="absolute inset-0 bg-[#F4F1EC]/90" />
       </div>
 
-      <div ref={contentRef} className="relative z-10 w-full px-8 lg:px-16 py-16" style={{ marginLeft: '260px' }}>
+      <div
+        ref={contentRef}
+        className="relative z-10 w-full px-8 lg:px-16 py-16"
+        style={{ marginLeft: "260px" }}
+      >
         <div className="max-w-5xl">
-          <span className="animate-item block text-sm text-[#8B8680] mb-2">07</span>
-          <h2 className="animate-item font-display text-5xl md:text-6xl lg:text-7xl text-[#1E1E1E] mb-4">{section.title}</h2>
-          <p className="animate-item text-lg text-[#8B8680] mb-10">{section.subtitle}</p>
+          <span className="animate-item block text-sm text-[#8B8680] mb-2">
+            07
+          </span>
+          <h2 className="animate-item font-display text-5xl md:text-6xl lg:text-7xl text-[#1E1E1E] mb-4">
+            {section.title}
+          </h2>
+          <p className="animate-item text-lg text-[#8B8680] mb-10">
+            {section.subtitle}
+          </p>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Map */}
@@ -67,9 +85,13 @@ export default function LocationSection({ section, isActive }: Props) {
                   <div className="flex items-start gap-3">
                     <MapPin className="w-5 h-5 text-[#D4A056] mt-0.5 shrink-0" />
                     <div>
-                      <p className="text-sm text-[#1E1E1E] font-medium">{general.address}</p>
+                      <p className="text-sm text-[#1E1E1E] font-medium">
+                        {general.address}
+                      </p>
                       {landmark && (
-                        <p className="text-xs text-[#8B8680] mt-1">{landmark}</p>
+                        <p className="text-xs text-[#8B8680] mt-1">
+                          {landmark}
+                        </p>
                       )}
                     </div>
                   </div>
@@ -83,16 +105,25 @@ export default function LocationSection({ section, isActive }: Props) {
               <div className="animate-item bg-white rounded-xl p-5 border border-[#E8E4E0]">
                 <div className="flex items-center gap-2 mb-4">
                   <Clock className="w-5 h-5 text-[#D4A056]" />
-                  <h3 className="font-semibold text-[#1E1E1E]">Horario de atención</h3>
+                  <h3 className="font-semibold text-[#1E1E1E]">
+                    Horario de atención
+                  </h3>
                 </div>
                 <div className="space-y-2">
                   {schedule.map((day: ScheduleDay) => (
-                    <div key={day.day} className="flex items-center justify-between text-sm">
+                    <div
+                      key={day.day}
+                      className="flex items-center justify-between text-sm"
+                    >
                       <span className="text-[#1E1E1E] w-28">{day.day}</span>
                       {day.closed ? (
-                        <span className="text-[#C0392B] font-medium text-xs">Cerrado</span>
+                        <span className="text-[#C0392B] font-medium text-xs">
+                          Cerrado
+                        </span>
                       ) : (
-                        <span className="text-[#8B8680]">{day.openTime} - {day.closeTime}</span>
+                        <span className="text-[#8B8680]">
+                          {day.openTime} - {day.closeTime}
+                        </span>
                       )}
                     </div>
                   ))}
@@ -143,8 +174,14 @@ export default function LocationSection({ section, isActive }: Props) {
           {/* Footer */}
           <div className="animate-item mt-12 pt-6 border-t border-[#E8E4E0]">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#8B8680]">
-              <p>© {new Date().getFullYear()} {general.studioName}. Todos los derechos reservados.</p>
-              <a href="/admin" className="hover:text-[#D4A056] transition-colors">
+              <p>
+                © {new Date().getFullYear()} {general.studioName}. Todos los
+                derechos reservados.
+              </p>
+              <a
+                href="/admin"
+                className="hover:text-[#D4A056] transition-colors"
+              >
                 Panel de administración
               </a>
             </div>
