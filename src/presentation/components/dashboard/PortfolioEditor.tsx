@@ -1,8 +1,8 @@
-import { Plus, Trash2, Star } from 'lucide-react';
-import { useStore } from '@/data/useStore';
-import type { Section, PortfolioImage } from '@/domain/types';
-import { toast } from 'sonner';
-import SectionTextEditor from './SectionTextEditor';
+import { Plus, Trash2, Star } from "lucide-react";
+import { useStore } from "@/data/useStore";
+import type { Section, PortfolioImage } from "@/domain/types";
+import { toast } from "sonner";
+import SectionTextEditor from "./SectionTextEditor";
 
 interface Props {
   section: Section;
@@ -27,34 +27,36 @@ export default function PortfolioEditor({ section }: Props) {
         const newImage: PortfolioImage = {
           id: `pf-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           src: reader.result as string,
-          category: 'General',
+          category: "General",
           featured: false,
         };
         const updated = [...images, newImage];
         if (updated.length > 12) {
-          toast.warning('Máximo 12 imágenes alcanzado');
+          toast.warning("Máximo 12 imágenes alcanzado");
           return;
         }
         updateSectionContent(section.id, { portfolioImages: updated });
         saveAll();
-        toast.success('Imagen agregada');
+        toast.success("Imagen agregada");
       };
       reader.readAsDataURL(file);
     });
   };
 
   const handleUpdate = (id: string, updates: Partial<PortfolioImage>) => {
-    const updated = images.map((img) => (img.id === id ? { ...img, ...updates } : img));
+    const updated = images.map((img) =>
+      img.id === id ? { ...img, ...updates } : img,
+    );
     updateSectionContent(section.id, { portfolioImages: updated });
     saveAll();
   };
 
   const handleDelete = (id: string) => {
-    if (!confirm('¿Eliminar esta imagen?')) return;
+    if (!confirm("¿Eliminar esta imagen?")) return;
     const updated = images.filter((img) => img.id !== id);
     updateSectionContent(section.id, { portfolioImages: updated });
     saveAll();
-    toast.success('Imagen eliminada');
+    toast.success("Imagen eliminada");
   };
 
   return (
@@ -82,25 +84,38 @@ export default function PortfolioEditor({ section }: Props) {
         {images.length === 0 ? (
           <div className="text-center py-12 text-[#718096]">
             <p>No hay imágenes en el portafolio</p>
-            <p className="text-sm mt-1">Suba imágenes para mostrar en la galería</p>
+            <p className="text-sm mt-1">
+              Suba imágenes para mostrar en la galería
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {images.map((img) => (
-              <div key={img.id} className="relative group rounded-lg overflow-hidden border border-[#E8E4E0]">
-                <img src={img.src} alt={img.category} className="w-full aspect-square object-cover" />
+              <div
+                key={img.id}
+                className="relative group rounded-lg overflow-hidden border border-[#E8E4E0]"
+              >
+                <img
+                  src={img.src}
+                  alt={img.category}
+                  className="w-full aspect-square object-cover"
+                />
                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 p-3">
                   <input
                     type="text"
                     className="dashboard-input text-xs py-1 text-center"
                     value={img.category}
-                    onChange={(e) => handleUpdate(img.id, { category: e.target.value })}
+                    onChange={(e) =>
+                      handleUpdate(img.id, { category: e.target.value })
+                    }
                     placeholder="Categoría"
                   />
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => handleUpdate(img.id, { featured: !img.featured })}
-                      className={`p-1.5 rounded ${img.featured ? 'bg-[#D4A056] text-[#1E1E1E]' : 'bg-white/20 text-white'}`}
+                      onClick={() =>
+                        handleUpdate(img.id, { featured: !img.featured })
+                      }
+                      className={`p-1.5 rounded ${img.featured ? "bg-[#D4A056] text-[#1E1E1E]" : "bg-white/20 text-white"}`}
                       title="Destacada"
                     >
                       <Star className="w-4 h-4" />

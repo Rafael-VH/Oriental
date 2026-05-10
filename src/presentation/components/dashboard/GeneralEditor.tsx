@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { Settings, Save, RotateCcw } from 'lucide-react';
-import { useStore } from '@/data/useStore';
-import { toast } from 'sonner';
+import { useState } from "react";
+import { Settings, Save, RotateCcw } from "lucide-react";
+import { useStore } from "@/data/useStore";
+import { toast } from "sonner";
 
 export default function GeneralEditor() {
   const general = useStore((s) => s.general);
@@ -15,8 +15,8 @@ export default function GeneralEditor() {
     whatsappNumber: general.whatsappNumber,
     email: general.email,
     address: general.address,
-    instagram: general.socialMedia?.instagram || '',
-    facebook: general.socialMedia?.facebook || '',
+    instagram: general.socialMedia?.instagram || "",
+    facebook: general.socialMedia?.facebook || "",
     autoScrollInterval: general.autoScrollInterval,
     pin: general.pin,
   });
@@ -26,22 +26,29 @@ export default function GeneralEditor() {
   };
 
   const handleSave = () => {
-    updateGeneral('studioName', form.studioName);
-    updateGeneral('phone', form.phone);
-    updateGeneral('whatsappNumber', form.whatsappNumber);
-    updateGeneral('email', form.email);
-    updateGeneral('address', form.address);
-    updateGeneral('socialMedia', { instagram: form.instagram, facebook: form.facebook });
-    updateGeneral('autoScrollInterval', Number(form.autoScrollInterval));
-    updateGeneral('pin', form.pin);
+    updateGeneral("studioName", form.studioName);
+    updateGeneral("phone", form.phone);
+    updateGeneral("whatsappNumber", form.whatsappNumber);
+    updateGeneral("email", form.email);
+    updateGeneral("address", form.address);
+    updateGeneral("socialMedia", {
+      instagram: form.instagram,
+      facebook: form.facebook,
+    });
+    updateGeneral("autoScrollInterval", Number(form.autoScrollInterval));
+    updateGeneral("pin", form.pin);
     saveAll();
-    toast.success('Configuración general guardada');
+    toast.success("Configuración general guardada");
   };
 
   const handleReset = () => {
-    if (confirm('¿Restaurar todos los valores predeterminados? Se perderán todos los cambios.')) {
+    if (
+      confirm(
+        "¿Restaurar todos los valores predeterminados? Se perderán todos los cambios.",
+      )
+    ) {
       resetToDefaults();
-      toast.info('Valores restaurados');
+      toast.info("Valores restaurados");
     }
   };
 
@@ -52,8 +59,12 @@ export default function GeneralEditor() {
         <div className="flex items-center gap-3">
           <Settings className="w-6 h-6 text-[#D4A056]" />
           <div>
-            <h1 className="font-dashboard text-xl font-semibold text-[#2D3748]">Configuración General</h1>
-            <p className="text-sm text-[#718096]">Información básica del estudio</p>
+            <h1 className="font-dashboard text-xl font-semibold text-[#2D3748]">
+              Configuración General
+            </h1>
+            <p className="text-sm text-[#718096]">
+              Información básica del estudio
+            </p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -76,7 +87,9 @@ export default function GeneralEditor() {
 
       {/* Studio Info */}
       <div className="dashboard-card">
-        <h2 className="font-dashboard text-base font-semibold text-[#2D3748] mb-5">Información del Estudio</h2>
+        <h2 className="font-dashboard text-base font-semibold text-[#2D3748] mb-5">
+          Información del Estudio
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
             <label className="dashboard-label">Nombre del estudio</label>
@@ -84,7 +97,7 @@ export default function GeneralEditor() {
               type="text"
               className="dashboard-input"
               value={form.studioName}
-              onChange={(e) => handleChange('studioName', e.target.value)}
+              onChange={(e) => handleChange("studioName", e.target.value)}
             />
           </div>
           <div>
@@ -93,7 +106,7 @@ export default function GeneralEditor() {
               type="text"
               className="dashboard-input"
               value={form.phone}
-              onChange={(e) => handleChange('phone', e.target.value)}
+              onChange={(e) => handleChange("phone", e.target.value)}
               placeholder="+57 300 123 4567"
             />
           </div>
@@ -103,7 +116,7 @@ export default function GeneralEditor() {
               type="text"
               className="dashboard-input"
               value={form.whatsappNumber}
-              onChange={(e) => handleChange('whatsappNumber', e.target.value)}
+              onChange={(e) => handleChange("whatsappNumber", e.target.value)}
               placeholder="573001234567"
             />
           </div>
@@ -113,7 +126,7 @@ export default function GeneralEditor() {
               type="email"
               className="dashboard-input"
               value={form.email}
-              onChange={(e) => handleChange('email', e.target.value)}
+              onChange={(e) => handleChange("email", e.target.value)}
             />
           </div>
           <div className="md:col-span-2">
@@ -122,7 +135,7 @@ export default function GeneralEditor() {
               className="dashboard-textarea w-full"
               rows={2}
               value={form.address}
-              onChange={(e) => handleChange('address', e.target.value)}
+              onChange={(e) => handleChange("address", e.target.value)}
             />
           </div>
         </div>
@@ -130,7 +143,9 @@ export default function GeneralEditor() {
 
       {/* Social Media */}
       <div className="dashboard-card">
-        <h2 className="font-dashboard text-base font-semibold text-[#2D3748] mb-5">Redes Sociales</h2>
+        <h2 className="font-dashboard text-base font-semibold text-[#2D3748] mb-5">
+          Redes Sociales
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
             <label className="dashboard-label">Instagram URL</label>
@@ -138,7 +153,7 @@ export default function GeneralEditor() {
               type="url"
               className="dashboard-input"
               value={form.instagram}
-              onChange={(e) => handleChange('instagram', e.target.value)}
+              onChange={(e) => handleChange("instagram", e.target.value)}
               placeholder="https://instagram.com/estudiooriental"
             />
           </div>
@@ -148,7 +163,7 @@ export default function GeneralEditor() {
               type="url"
               className="dashboard-input"
               value={form.facebook}
-              onChange={(e) => handleChange('facebook', e.target.value)}
+              onChange={(e) => handleChange("facebook", e.target.value)}
               placeholder="https://facebook.com/estudiooriental"
             />
           </div>
@@ -157,30 +172,42 @@ export default function GeneralEditor() {
 
       {/* Advanced */}
       <div className="dashboard-card">
-        <h2 className="font-dashboard text-base font-semibold text-[#2D3748] mb-5">Configuración Avanzada</h2>
+        <h2 className="font-dashboard text-base font-semibold text-[#2D3748] mb-5">
+          Configuración Avanzada
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <label className="dashboard-label">Intervalo auto-scroll (segundos)</label>
+            <label className="dashboard-label">
+              Intervalo auto-scroll (segundos)
+            </label>
             <input
               type="number"
               className="dashboard-input"
               min={5}
               max={15}
               value={form.autoScrollInterval}
-              onChange={(e) => handleChange('autoScrollInterval', Number(e.target.value))}
+              onChange={(e) =>
+                handleChange("autoScrollInterval", Number(e.target.value))
+              }
             />
-            <p className="text-xs text-[#718096] mt-1">Tiempo entre transiciones automáticas de sección</p>
+            <p className="text-xs text-[#718096] mt-1">
+              Tiempo entre transiciones automáticas de sección
+            </p>
           </div>
           <div>
-            <label className="dashboard-label">PIN de acceso al dashboard</label>
+            <label className="dashboard-label">
+              PIN de acceso al dashboard
+            </label>
             <input
               type="password"
               className="dashboard-input"
               value={form.pin}
-              onChange={(e) => handleChange('pin', e.target.value)}
+              onChange={(e) => handleChange("pin", e.target.value)}
               placeholder="****"
             />
-            <p className="text-xs text-[#718096] mt-1">Código para acceder al panel de administración</p>
+            <p className="text-xs text-[#718096] mt-1">
+              Código para acceder al panel de administración
+            </p>
           </div>
         </div>
       </div>

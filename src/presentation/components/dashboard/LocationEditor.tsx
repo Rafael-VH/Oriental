@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { Save } from 'lucide-react';
-import { useStore } from '@/data/useStore';
-import type { Section, ScheduleDay } from '@/domain/types';
-import { toast } from 'sonner';
+import { useState, useEffect } from "react";
+import { Save } from "lucide-react";
+import { useStore } from "@/data/useStore";
+import type { Section, ScheduleDay } from "@/domain/types";
+import { toast } from "sonner";
 
 interface Props {
   section: Section;
@@ -16,16 +16,18 @@ export default function LocationEditor({ section }: Props) {
   const [title, setTitle] = useState(section.title);
   const [subtitle, setSubtitle] = useState(section.subtitle);
   const [bgImage, setBgImage] = useState(section.backgroundImage);
-  const [mapUrl, setMapUrl] = useState(section.content.mapUrl || '');
-  const [landmark, setLandmark] = useState(section.content.landmark || '');
-  const [schedule, setSchedule] = useState<ScheduleDay[]>(section.content.schedule || []);
+  const [mapUrl, setMapUrl] = useState(section.content.mapUrl || "");
+  const [landmark, setLandmark] = useState(section.content.landmark || "");
+  const [schedule, setSchedule] = useState<ScheduleDay[]>(
+    section.content.schedule || [],
+  );
 
   useEffect(() => {
     setTitle(section.title);
     setSubtitle(section.subtitle);
     setBgImage(section.backgroundImage);
-    setMapUrl(section.content.mapUrl || '');
-    setLandmark(section.content.landmark || '');
+    setMapUrl(section.content.mapUrl || "");
+    setLandmark(section.content.landmark || "");
     setSchedule(section.content.schedule || []);
   }, [section]);
 
@@ -33,12 +35,16 @@ export default function LocationEditor({ section }: Props) {
     updateSection(section.id, { title, subtitle, backgroundImage: bgImage });
     updateSectionContent(section.id, { mapUrl, landmark, schedule });
     saveAll();
-    toast.success('Sección de ubicación guardada');
+    toast.success("Sección de ubicación guardada");
   };
 
-  const handleScheduleChange = (index: number, field: keyof ScheduleDay, value: string | boolean) => {
+  const handleScheduleChange = (
+    index: number,
+    field: keyof ScheduleDay,
+    value: string | boolean,
+  ) => {
     const updated = schedule.map((day, i) =>
-      i === index ? { ...day, [field]: value } : day
+      i === index ? { ...day, [field]: value } : day,
     );
     setSchedule(updated);
   };
@@ -47,25 +53,37 @@ export default function LocationEditor({ section }: Props) {
     const file = e.target.files?.[0];
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) {
-      toast.error('Imagen demasiado grande');
+      toast.error("Imagen demasiado grande");
       return;
     }
     const reader = new FileReader();
     reader.onload = () => {
       setBgImage(reader.result as string);
-      toast.success('Imagen cargada');
+      toast.success("Imagen cargada");
     };
     reader.readAsDataURL(file);
   };
 
-  const days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+  const days = [
+    "Lunes",
+    "Martes",
+    "Miércoles",
+    "Jueves",
+    "Viernes",
+    "Sábado",
+    "Domingo",
+  ];
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-dashboard text-xl font-semibold text-[#2D3748]">{section.title}</h1>
-          <p className="text-sm text-[#718096]">Editar información de ubicación y horarios</p>
+          <h1 className="font-dashboard text-xl font-semibold text-[#2D3748]">
+            {section.title}
+          </h1>
+          <p className="text-sm text-[#718096]">
+            Editar información de ubicación y horarios
+          </p>
         </div>
         <button
           onClick={handleSave}
@@ -78,7 +96,9 @@ export default function LocationEditor({ section }: Props) {
 
       {/* Text Content */}
       <div className="dashboard-card">
-        <h2 className="font-dashboard text-base font-semibold text-[#2D3748] mb-5">Contenido</h2>
+        <h2 className="font-dashboard text-base font-semibold text-[#2D3748] mb-5">
+          Contenido
+        </h2>
         <div className="space-y-4">
           <div>
             <label className="dashboard-label">Título</label>
@@ -103,10 +123,14 @@ export default function LocationEditor({ section }: Props) {
 
       {/* Map */}
       <div className="dashboard-card">
-        <h2 className="font-dashboard text-base font-semibold text-[#2D3748] mb-5">Mapa</h2>
+        <h2 className="font-dashboard text-base font-semibold text-[#2D3748] mb-5">
+          Mapa
+        </h2>
         <div className="space-y-4">
           <div>
-            <label className="dashboard-label">URL de Google Maps (embed)</label>
+            <label className="dashboard-label">
+              URL de Google Maps (embed)
+            </label>
             <input
               type="url"
               className="dashboard-input"
@@ -139,19 +163,33 @@ export default function LocationEditor({ section }: Props) {
 
       {/* Schedule */}
       <div className="dashboard-card">
-        <h2 className="font-dashboard text-base font-semibold text-[#2D3748] mb-5">Horario de atención</h2>
+        <h2 className="font-dashboard text-base font-semibold text-[#2D3748] mb-5">
+          Horario de atención
+        </h2>
         <div className="space-y-2">
           {days.map((day, index) => {
-            const daySchedule = schedule[index] || { day, openTime: '08:00', closeTime: '18:00', closed: false };
+            const daySchedule = schedule[index] || {
+              day,
+              openTime: "08:00",
+              closeTime: "18:00",
+              closed: false,
+            };
             return (
-              <div key={day} className="flex items-center gap-3 py-2 border-b border-[#E8E4E0] last:border-0">
-                <span className="w-24 text-sm text-[#2D3748] font-medium">{day}</span>
+              <div
+                key={day}
+                className="flex items-center gap-3 py-2 border-b border-[#E8E4E0] last:border-0"
+              >
+                <span className="w-24 text-sm text-[#2D3748] font-medium">
+                  {day}
+                </span>
                 <label className="flex items-center gap-1.5 cursor-pointer">
                   <input
                     type="checkbox"
                     className="w-4 h-4 rounded border-[#E8E4E0] accent-[#D4A056]"
                     checked={daySchedule.closed}
-                    onChange={(e) => handleScheduleChange(index, 'closed', e.target.checked)}
+                    onChange={(e) =>
+                      handleScheduleChange(index, "closed", e.target.checked)
+                    }
                   />
                   <span className="text-xs text-[#718096]">Cerrado</span>
                 </label>
@@ -161,14 +199,18 @@ export default function LocationEditor({ section }: Props) {
                       type="time"
                       className="dashboard-input w-28"
                       value={daySchedule.openTime}
-                      onChange={(e) => handleScheduleChange(index, 'openTime', e.target.value)}
+                      onChange={(e) =>
+                        handleScheduleChange(index, "openTime", e.target.value)
+                      }
                     />
                     <span className="text-[#718096]">-</span>
                     <input
                       type="time"
                       className="dashboard-input w-28"
                       value={daySchedule.closeTime}
-                      onChange={(e) => handleScheduleChange(index, 'closeTime', e.target.value)}
+                      onChange={(e) =>
+                        handleScheduleChange(index, "closeTime", e.target.value)
+                      }
                     />
                   </div>
                 )}
@@ -180,12 +222,18 @@ export default function LocationEditor({ section }: Props) {
 
       {/* Background Image */}
       <div className="dashboard-card">
-        <h2 className="font-dashboard text-base font-semibold text-[#2D3748] mb-5">Imagen de fondo</h2>
+        <h2 className="font-dashboard text-base font-semibold text-[#2D3748] mb-5">
+          Imagen de fondo
+        </h2>
         {bgImage && (
           <div className="relative rounded-lg overflow-hidden max-h-48 mb-4">
-            <img src={bgImage} alt="Fondo" className="w-full h-48 object-cover" />
+            <img
+              src={bgImage}
+              alt="Fondo"
+              className="w-full h-48 object-cover"
+            />
             <button
-              onClick={() => setBgImage('')}
+              onClick={() => setBgImage("")}
               className="absolute top-2 right-2 bg-[#C0392B] text-white text-xs px-2 py-1 rounded hover:bg-[#a93226] transition-colors"
             >
               Eliminar
@@ -193,9 +241,16 @@ export default function LocationEditor({ section }: Props) {
           </div>
         )}
         <label className="upload-zone cursor-pointer">
-          <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleImageUpload}
+          />
           <div className="text-center py-6">
-            <p className="text-sm text-[#718096]">Arrastre o haga clic para subir imagen</p>
+            <p className="text-sm text-[#718096]">
+              Arrastre o haga clic para subir imagen
+            </p>
             <p className="text-xs text-[#718096] mt-1">Máx 5MB</p>
           </div>
         </label>
