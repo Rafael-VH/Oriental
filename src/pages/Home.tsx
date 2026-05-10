@@ -1,8 +1,8 @@
-import { useState } from 'react'
-import '../App.css'
+import { useState } from "react";
+import "../App.css";
 
 export default function Home() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <>
@@ -16,5 +16,5 @@ export default function Home() {
         </p>
       </div>
     </>
-  )
+  );
 }
