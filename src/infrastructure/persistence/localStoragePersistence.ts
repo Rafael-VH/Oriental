@@ -1,4 +1,3 @@
-import type { AppState, GeneralSettings } from '@/domain/types';
 import type { IPersistenceRepository } from '@/application/ports/IPersistenceRepository';
 
 const STORAGE_KEY = 'estudio_oriental_cms';

@@ -81,8 +81,7 @@ export default function SectionNav({
             <li key={i}>
               <button
                 onClick={() => onNavigate(i)}
-                onMouseEnter={() => {}}
-                onMouseLeave={() => {}}
+
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-300 group ${
                   activeSection === i ? "bg-[#D4A056]/10" : "hover:bg-black/5"
                 }`}

@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Camera, Lock } from "lucide-react";
-import { useStore, login, logout, checkSession } from "@/infrastructure/store/zustandStore";
+import {
+  useStore,
+  login,
+  checkSession,
+} from "@/infrastructure/store/zustandStore";
 import DashboardSidebar from "@/presentation/components/dashboard/DashboardSidebar";
 import GeneralEditor from "@/presentation/components/dashboard/GeneralEditor";
 import SectionTextEditor from "@/presentation/components/dashboard/SectionTextEditor";
@@ -28,7 +32,6 @@ export default function Dashboard() {
   useEffect(() => {
     const valid = checkSession();
     if (!valid && isAuthenticated) {
-      logout();
       toast.error("Sesión expirada");
     }
     setChecking(false);
@@ -50,7 +53,14 @@ export default function Dashboard() {
     }
   };
 
-  // Login screen
+  if (checking) {
+    return (
+      <div className="min-h-screen bg-[#F4F1EC] flex items-center justify-center">
+        <div className="text-[#8B8680]">Cargando...</div>
+      </div>
+    );
+  }
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-[#F4F1EC] flex items-center justify-center px-4">
@@ -107,14 +117,6 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-      </div>
-    );
-  }
-
-  if (checking) {
-    return (
-      <div className="min-h-screen bg-[#F4F1EC] flex items-center justify-center">
-        <div className="text-[#8B8680]">Cargando...</div>
       </div>
     );
   }

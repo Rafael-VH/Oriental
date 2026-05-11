@@ -1,6 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Settings, Save, RotateCcw } from "lucide-react";
-import { useStore, saveAll, resetToDefaults } from "@/infrastructure/store/zustandStore";
+import {
+  useStore,
+  saveAll,
+  resetToDefaults,
+} from "@/infrastructure/store/zustandStore";
 import { toast } from "sonner";
 
 export default function GeneralEditor() {
@@ -18,6 +22,20 @@ export default function GeneralEditor() {
     autoScrollInterval: general.autoScrollInterval,
     pin: general.pin,
   });
+
+  useEffect(() => {
+    setForm({
+      studioName: general.studioName,
+      phone: general.phone,
+      whatsappNumber: general.whatsappNumber,
+      email: general.email,
+      address: general.address,
+      instagram: general.socialMedia?.instagram || "",
+      facebook: general.socialMedia?.facebook || "",
+      autoScrollInterval: general.autoScrollInterval,
+      pin: general.pin,
+    });
+  }, [general]);
 
   const handleChange = (field: string, value: string | number) => {
     setForm((prev) => ({ ...prev, [field]: value }));

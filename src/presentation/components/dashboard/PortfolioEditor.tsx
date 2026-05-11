@@ -16,30 +16,41 @@ export default function PortfolioEditor({ section }: Props) {
     const files = e.target.files;
     if (!files) return;
 
-    Array.from(files).forEach((file) => {
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error(`${file.name} es muy grande. Máx 5MB`);
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = () => {
-        const newImage: PortfolioImage = {
-          id: `pf-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          src: reader.result as string,
-          category: "General",
-          featured: false,
-        };
-        const updated = [...images, newImage];
-        if (updated.length > 12) {
-          toast.warning("Máximo 12 imágenes alcanzado");
+    const remaining = 12 - images.length;
+    if (remaining <= 0) {
+      toast.warning("Máximo 12 imágenes alcanzado");
+      return;
+    }
+
+    Array.from(files)
+      .slice(0, remaining)
+      .forEach((file) => {
+        if (file.size > 5 * 1024 * 1024) {
+          toast.error(`${file.name} es muy grande. Máx 5MB`);
           return;
         }
-        updateSectionContent(section.id, { portfolioImages: updated });
-        saveAll();
-        toast.success("Imagen agregada");
-      };
-      reader.readAsDataURL(file);
-    });
+        const reader = new FileReader();
+        reader.onload = () => {
+          const current =
+            useStore.getState().sections.find((s) => s.id === section.id)
+              ?.content.portfolioImages || [];
+          if (current.length >= 12) {
+            toast.warning("Máximo 12 imágenes alcanzado");
+            return;
+          }
+          const newImage: PortfolioImage = {
+            id: `pf-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            src: reader.result as string,
+            category: "General",
+            featured: false,
+          };
+          updateSectionContent(section.id, {
+            portfolioImages: [...current, newImage],
+          });
+          saveAll();
+        };
+        reader.readAsDataURL(file);
+      });
   };
 
   const handleUpdate = (id: string, updates: Partial<PortfolioImage>) => {

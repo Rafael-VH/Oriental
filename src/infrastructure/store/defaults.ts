@@ -28,7 +28,7 @@ export const defaultSections: Section[] = [
       showLogo: true,
     },
     isVisible: true,
-    lastModified: Date.now(),
+    lastModified: 0,
   },
   {
     id: 2,
@@ -44,7 +44,7 @@ export const defaultSections: Section[] = [
       ],
     },
     isVisible: true,
-    lastModified: Date.now(),
+    lastModified: 0,
   },
   {
     id: 3,
@@ -63,7 +63,7 @@ export const defaultSections: Section[] = [
       ],
     },
     isVisible: true,
-    lastModified: Date.now(),
+    lastModified: 0,
   },
   {
     id: 4,
@@ -80,7 +80,7 @@ export const defaultSections: Section[] = [
       ],
     },
     isVisible: true,
-    lastModified: Date.now(),
+    lastModified: 0,
   },
   {
     id: 5,
@@ -98,7 +98,7 @@ export const defaultSections: Section[] = [
       ],
     },
     isVisible: true,
-    lastModified: Date.now(),
+    lastModified: 0,
   },
   {
     id: 6,
@@ -134,7 +134,7 @@ export const defaultSections: Section[] = [
       ],
     },
     isVisible: true,
-    lastModified: Date.now(),
+    lastModified: 0,
   },
 ];
 

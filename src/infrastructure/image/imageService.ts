@@ -11,10 +11,8 @@ export const imageService: IImageService = {
 
   fileToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
-      try {
-        this.validateSize(file);
-      } catch (err) {
-        reject(err);
+      if (file.size > MAX_IMAGE_SIZE) {
+        reject(new Error('File too large. Max 5MB.'));
         return;
       }
 
