@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Settings, Save, RotateCcw } from "lucide-react";
-import { useStore } from "@/data/useStore";
-import { saveAll, resetToDefaults } from "@/services/app.service";
+import { useStore, saveAll, resetToDefaults } from "@/infrastructure/store/zustandStore";
 import { toast } from "sonner";
 
 export default function GeneralEditor() {

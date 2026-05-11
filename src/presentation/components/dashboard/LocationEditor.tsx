@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Save } from "lucide-react";
-import { useStore } from "@/data/useStore";
+import { useStore, saveAll } from "@/infrastructure/store/zustandStore";
 import type { Section, ScheduleDay } from "@/domain/types";
-import { saveAll } from "@/services/app.service";
 import { toast } from "sonner";
 
 interface Props {

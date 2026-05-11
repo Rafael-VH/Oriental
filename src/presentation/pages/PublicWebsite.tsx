@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { useStore } from "@/data/useStore";
+import { useStore } from "@/infrastructure/store/zustandStore";
 import SectionNav from "@/presentation/components/SectionNav";
 import HeroSection from "@/presentation/components/sections/HeroSection";
 import ServicesSection from "@/presentation/components/sections/ServicesSection";

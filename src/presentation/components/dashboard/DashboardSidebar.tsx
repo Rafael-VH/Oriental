@@ -12,8 +12,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { useStore } from "@/data/useStore";
-import { logout } from "@/services/app.service";
+import { useStore, logout } from "@/infrastructure/store/zustandStore";
 
 interface Props {
   activeTab: string;

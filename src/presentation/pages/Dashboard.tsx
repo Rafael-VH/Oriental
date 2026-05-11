@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Camera, Lock } from "lucide-react";
-import { useStore } from "@/data/useStore";
-import { login, logout, checkSession } from "@/services/app.service";
+import { useStore, login, logout, checkSession } from "@/infrastructure/store/zustandStore";
 import DashboardSidebar from "@/presentation/components/dashboard/DashboardSidebar";
 import GeneralEditor from "@/presentation/components/dashboard/GeneralEditor";
 import SectionTextEditor from "@/presentation/components/dashboard/SectionTextEditor";

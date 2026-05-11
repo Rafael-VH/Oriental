@@ -7,9 +7,8 @@ import {
   Heart,
   GripVertical,
 } from "lucide-react";
-import { useStore } from "@/data/useStore";
+import { useStore, saveAll } from "@/infrastructure/store/zustandStore";
 import type { Section, ServiceItem } from "@/domain/types";
-import { saveAll } from "@/services/app.service";
 import { toast } from "sonner";
 import SectionTextEditor from "./SectionTextEditor";
 

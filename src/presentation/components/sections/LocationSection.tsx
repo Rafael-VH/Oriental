@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { MapPin, Phone, Mail, Instagram, Facebook, Clock } from "lucide-react";
-import { useStore } from "@/data/useStore";
+import { useStore } from "@/infrastructure/store/zustandStore";
 import type { Section, ScheduleDay } from "@/domain/types";
 
 interface Props {

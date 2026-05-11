@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { MessageCircle, Calendar, ChevronDown } from "lucide-react";
-import { useStore } from "@/data/useStore";
+import { useStore } from "@/infrastructure/store/zustandStore";
 
 interface SectionNavProps {
   activeSection: number;

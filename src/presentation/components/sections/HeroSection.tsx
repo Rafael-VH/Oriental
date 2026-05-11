@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { MessageCircle, ChevronDown } from "lucide-react";
-import { useStore } from "@/data/useStore";
+import { useStore } from "@/infrastructure/store/zustandStore";
 import type { Section } from "@/domain/types";
 
 interface Props {
