@@ -2,8 +2,8 @@ import type { AppState } from '@/domain/types';
 import type { IPersistenceRepository } from '../ports/IPersistenceRepository';
 
 export function createHydrateStoreUseCase(persistenceRepo: IPersistenceRepository) {
-  return (defaults: AppState): AppState => {
-    return persistenceRepo.load(defaults);
+  return async (defaults: AppState): Promise<AppState> => {
+    return await persistenceRepo.load(defaults);
   };
 }
 

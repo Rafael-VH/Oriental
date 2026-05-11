@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import type { AppState, GeneralSettings, Section, SectionContent } from '@/domain/types';
 import { defaultAppState } from './defaults';
-import { localStoragePersistence } from '../persistence/localStoragePersistence';
+import { pocketbasePersistence } from '../persistence/pocketbasePersistence';
 import { pinAuthService } from '../auth/pinAuthService';
 import { createLoginUseCase, createLogoutUseCase, createCheckSessionUseCase } from '@/application/use-cases/auth.usecases';
 import { createHydrateStoreUseCase, createSaveAllUseCase, createResetToDefaultsUseCase } from '@/application/use-cases/persistence.usecases';
@@ -15,12 +15,12 @@ import {
   toggleOfferActiveUseCase,
 } from '@/application/use-cases/items.usecases';
 
-const loginUseCase = createLoginUseCase(pinAuthService, localStoragePersistence);
-const logoutUseCase = createLogoutUseCase(pinAuthService, localStoragePersistence);
+const loginUseCase = createLoginUseCase(pinAuthService, pocketbasePersistence);
+const logoutUseCase = createLogoutUseCase(pinAuthService, pocketbasePersistence);
 const checkSessionUseCase = createCheckSessionUseCase(pinAuthService);
-const hydrateStoreUseCase = createHydrateStoreUseCase(localStoragePersistence);
-const saveAllUseCase = createSaveAllUseCase(localStoragePersistence);
-const resetToDefaultsUseCase = createResetToDefaultsUseCase(localStoragePersistence);
+const hydrateStoreUseCase = createHydrateStoreUseCase(pocketbasePersistence);
+const saveAllUseCase = createSaveAllUseCase(pocketbasePersistence);
+const resetToDefaultsUseCase = createResetToDefaultsUseCase(pocketbasePersistence);
 
 interface AppActions {
   updateGeneral: (field: keyof GeneralSettings, value: unknown) => void;
@@ -39,76 +39,72 @@ interface AppActions {
   clearUnsavedChanges: () => void;
 }
 
-export const useStore = create<AppState & AppActions>((set, get) => {
-  const initial = hydrateStoreUseCase(defaultAppState);
+export const useStore = create<AppState & AppActions>((set, get) => ({
+  ...defaultAppState,
 
-  return {
-    ...initial,
+  // General
+  updateGeneral: (field, value) => {
+    updateGeneralUseCase(field, value, get, set);
+  },
 
-    // General
-    updateGeneral: (field, value) => {
-      updateGeneralUseCase(field, value, get, set);
-    },
+  updateGeneralObject: (updates) => {
+    updateGeneralObjectUseCase(updates, get, set);
+  },
 
-    updateGeneralObject: (updates) => {
-      updateGeneralObjectUseCase(updates, get, set);
-    },
+  // Sections
+  updateSection: (sectionId, updates) => {
+    updateSectionUseCase(sectionId, updates, get, set);
+  },
 
-    // Sections
-    updateSection: (sectionId, updates) => {
-      updateSectionUseCase(sectionId, updates, get, set);
-    },
+  updateSectionContent: (sectionId, content) => {
+    updateSectionContentUseCase(sectionId, content, get, set);
+  },
 
-    updateSectionContent: (sectionId, content) => {
-      updateSectionContentUseCase(sectionId, content, get, set);
-    },
+  // Items CRUD
+  addItem: (sectionId, itemType, item) => {
+    addItemUseCase(sectionId, itemType, item, get, set);
+  },
 
-    // Items CRUD
-    addItem: (sectionId, itemType, item) => {
-      addItemUseCase(sectionId, itemType, item, get, set);
-    },
+  removeItem: (sectionId, itemType, itemId) => {
+    removeItemUseCase(sectionId, itemType, itemId, get, set);
+  },
 
-    removeItem: (sectionId, itemType, itemId) => {
-      removeItemUseCase(sectionId, itemType, itemId, get, set);
-    },
+  updateItem: (sectionId, itemType, itemId, updates) => {
+    updateItemUseCase(sectionId, itemType, itemId, updates, get, set);
+  },
 
-    updateItem: (sectionId, itemType, itemId, updates) => {
-      updateItemUseCase(sectionId, itemType, itemId, updates, get, set);
-    },
+  reorderItems: (sectionId, itemType, newOrder) => {
+    reorderItemsUseCase(sectionId, itemType, newOrder, get, set);
+  },
 
-    reorderItems: (sectionId, itemType, newOrder) => {
-      reorderItemsUseCase(sectionId, itemType, newOrder, get, set);
-    },
+  toggleOfferActive: (sectionId, offerId) => {
+    toggleOfferActiveUseCase(sectionId, offerId, get, set);
+  },
 
-    toggleOfferActive: (sectionId, offerId) => {
-      toggleOfferActiveUseCase(sectionId, offerId, get, set);
-    },
+  // UI
+  setActiveDashboardTab: (tab) => {
+    set((state) => ({ ...state, ui: { ...state.ui, activeDashboardTab: tab } }));
+  },
 
-    // UI
-    setActiveDashboardTab: (tab) => {
-      set((state) => ({ ...state, ui: { ...state.ui, activeDashboardTab: tab } }));
-    },
+  toggleSidebar: () => {
+    set((state) => ({ ...state, ui: { ...state.ui, sidebarCollapsed: !state.ui.sidebarCollapsed } }));
+  },
 
-    toggleSidebar: () => {
-      set((state) => ({ ...state, ui: { ...state.ui, sidebarCollapsed: !state.ui.sidebarCollapsed } }));
-    },
+  setPreviewMode: (mode) => {
+    set((state) => ({ ...state, ui: { ...state.ui, previewMode: mode } }));
+  },
 
-    setPreviewMode: (mode) => {
-      set((state) => ({ ...state, ui: { ...state.ui, previewMode: mode } }));
-    },
+  addUnsavedChange: (key) => {
+    set((state) => {
+      if (state.ui.unsavedChanges.includes(key)) return state;
+      return { ...state, ui: { ...state.ui, unsavedChanges: [...state.ui.unsavedChanges, key] } };
+    });
+  },
 
-    addUnsavedChange: (key) => {
-      set((state) => {
-        if (state.ui.unsavedChanges.includes(key)) return state;
-        return { ...state, ui: { ...state.ui, unsavedChanges: [...state.ui.unsavedChanges, key] } };
-      });
-    },
-
-    clearUnsavedChanges: () => {
-      set((state) => ({ ...state, ui: { ...state.ui, unsavedChanges: [] } }));
-    },
-  };
-});
+  clearUnsavedChanges: () => {
+    set((state) => ({ ...state, ui: { ...state.ui, unsavedChanges: [] } }));
+  },
+}));
 
 // Imperative actions (for use outside React hooks — e.g., callbacks, effects)
 export function login(pin: string): boolean {
@@ -131,7 +127,7 @@ export function resetToDefaults(): void {
   resetToDefaultsUseCase(defaultAppState, useStore.setState);
 }
 
-export function hydrateStore(): void {
-  const saved = hydrateStoreUseCase(defaultAppState);
+export async function hydrateStore(): Promise<void> {
+  const saved = await hydrateStoreUseCase(defaultAppState);
   useStore.setState(saved);
 }

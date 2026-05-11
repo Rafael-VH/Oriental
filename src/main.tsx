@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import { hydrateStore } from "@/infrastructure/store/zustandStore";
 
-hydrateStore();
+await hydrateStore();
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>

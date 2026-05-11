@@ -3,7 +3,7 @@ import type { IPersistenceRepository } from '@/application/ports/IPersistenceRep
 const STORAGE_KEY = 'estudio_oriental_cms';
 
 export const localStoragePersistence: IPersistenceRepository = {
-  load(defaultState) {
+  async load(defaultState) {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
